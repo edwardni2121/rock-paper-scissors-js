@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            flex: wrap;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        h2, p{
+            text-align: center;
+        }
+
+        p{
+            max-width: 700px;
+        }
+        .game-rules{
+            display: flex;
+            flex-direction: column;
+        }
+        .rule-row{
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+        }
+        .rule-row p{
+            border: 2px solid black;
+            flex-shrink: 1;
+            padding: 4px 2px;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>
+        Let's Play - Rock Paper Scissors -
+    </h2>
+    <p>Rock Paper Scissors is a game where you as the player choose to either play 1 of 3 options (rock, paper, scissors) <strong> case not sensitive. </strong> The rules of the game are as followed: 
+    </p>
+    <div class="game-rules">
+        <div class="rule-row">
+            <p>Player Chooses: Rock<br />
+               Computer Chooses: Rock<br />
+               Tie Game.
+            </p>
+            <p>Player Chooses: Rock<br />
+                Computer Chooses: Paper<br />
+                Computer Wins.
+            </p>
+            <p>Player Chooses: Rock<br />
+                Computer Chooses: Scissors<br />
+                Player Wins.
+            </p>
+        </div>
+        <div class="rule-row">
+            <p>Player Chooses: Paper<br />
+                Computer Chooses: Rock<br />
+                Player Wins.
+             </p>
+             <p>Player Chooses: Paper<br />
+                 Computer Chooses: Paper<br />
+                 Tie.
+             </p>
+             <p>Player Chooses: Paper<br />
+                 Computer Chooses: Scissors<br />
+                 Computer Wins.
+             </p>
+        </div>
+        <div class="rule-row">
+            <p>Player Chooses: Scissors<br />
+                Computer Chooses: Rock<br />
+                Computer Wins.
+             </p>
+             <p>Player Chooses: Scissors<br />
+                 Computer Chooses: Paper<br />
+                 Player Wins.
+             </p>
+             <p>Player Chooses: Scissors<br />
+                 Computer Chooses: Scissors<br />
+                 Tie.
+             </p>
+        </div>
+    </div>
+    <label for="choice">Please make a choice: (Enter "Rock" "Paper" or "Scissors"</label>
+    <button id="begin-game">Play!</button>
+    
+    <script>
+  
+
+       let playerChoice;
+       let computerChoice;
+       let playerValue;
+       let gameCalculator;
+       let playerWins = 0;
+       let computerWins = 0;
+
+       function numerizeChoice(moveName){
+            if (moveName.toLowerCase() === 'rock') return 0;
+                else if (moveName.toLowerCase() === 'paper') return 1;
+                else if (moveName.toLowerCase() === 'scissors')  return 2; 
+                else console.log("Enter a new option... Must be Rock, Paper or Scissors");
+       }
+
+       function generateComputer(){
+            let numberValue = Math.floor(Math.random()*3);
+            if (numberValue === 0){
+                computerChoice = 'rock';
+            }
+            if (numberValue === 1){
+                computerChoice = 'paper';
+            }
+            if (numberValue === 2){
+                computerChoice = 'scissors';
+            }
+            return numberValue;
+       }
+
+       function gameLogic(player, computer){
+            gameCalculator = Math.abs((player - computer));
+            if (gameCalculator === 0)
+                console.log("tie game!");
+            else if (gameCalculator === 1){
+                if(player >  computer){
+                    playerWins++;
+                    console.log(`${playerChoice.toLowerCase()} beats ${computerChoice.toLowerCase()}. Player wins!`)
+                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                }else{
+                    computerWins++;
+                    console.log(`${computerChoice.toLowerCase()} beats ${playerChoice.toLowerCase()}. Computer wins!`)
+                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                }
+            }else if (gameCalculator === 2){
+                if(player <  computer){
+                    playerWins++;
+                    console.log(`${playerChoice.toLowerCase()} beats ${computerChoice.toLowerCase()}. Player wins!`)
+                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                }else{
+                    computerWins++;
+                    console.log(`${computerChoice.toLowerCase()} beats ${playerChoice.toLowerCase()}. Computer wins!`)
+                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                }
+            }
+       }
+
+       function game(){
+            playerChoice = prompt("Please make a choice (Rock, Paper, Scissors): ", "Rock").toLowerCase();
+            gameLogic(numerizeChoice(playerChoice), generateComputer());
+       }
+
+       document.getElementById("begin-game").addEventListener("click", function(){
+        while(playerWins < 3 && computerWins < 3)
+            game();
+        (playerWins > computerWins) ? console.log("Congratulations! You just won the R-P-S World Series") : console.log("Sorry! The Computer got the best of you this time. Try again?");
+        });
+        
+       
+        /*Second solution is here
+        Set a global variable playerChoice to store the player's input into
+        create a global variable playerValue
+        Create a global variable computerChoice
+        create a global variable gameCalculator
+        create a global variable playerWins
+        create a global variable computerWins
+        Create a function called numerizeChoice that passes in a param (moveName) and returns an integer 0, 1 or 2
+            If the variable input in all lower case is equal to 'rock'
+                return 0
+                end if
+            else if the lowercase value for the variable is equal to 'paper'
+                return 1
+                end if
+            else if the lowercase value for the variable is equal to 'scissors'
+                return 2
+                end if
+            else
+                output to console.log "Enter a new option... must be rock paper or scissors
+        
+        Create a function generateComputer() that sets the computerValue to a random generator
+            set a local variable "numberValue" to -> Use a Math random Javascript function to create a floating number between 0...1, multiply the result by 3... take the floor and add 1.
+            if numberValue equals 0, set computerChoice to 'rock'
+            else if numberValue equals 1, set computerChoice to 'paper'
+            else set computerChoice to 'scissors'
+            return numberValue;
+            //Should set numberValue to a number between 0-2
+
+        Create a function gameLogic that has 2 param (player, computer)
+            set gameCalculator equal player minus computer
+            if gameCalculator equals 0
+                output "tie game. nothing happens" to the console.
+            if gameCalculator equals 1
+                check if player > computer if yes increment playerWins and output to conole "$playerValue beats $computerValue. user wins this round!", else increment computerWins and output to conole "$computervalue beats $playerValue. Computer wins this round!"
+            if gameCalculator equals 2
+                check if player < computer if yes increment playerWins and output to conole "Rock beats Scissors. User wins this round!", else increment computerWins and output to conole "Rock beats Scissors. Computer wins this round!"
+
+        Create a function for the game()
+            Set a playerInput tp prompt user to input a new value
+            set playerValue equal to the return value of numerizeChoice passing in (playerInput)
+            call gameLogic passing in (playerValue, generateComputer())
+
+        On HTML button click call game function while 
+        create a while loop as long as playerWins is less than 3 and computerWins is less than 3
+            call game();
+        if playerWins is greater than computerWins output to alert "You won the Rock Paper Scissors Series!" else alert "Computer wins this time. Sorry!"
+        
+        */
+
+
+            
+
+    </script>
+    </body>   
+</html>
