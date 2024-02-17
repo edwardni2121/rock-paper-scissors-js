@@ -33,6 +33,13 @@
             flex-shrink: 1;
             padding: 4px 2px;
         }
+        .gamebuttons{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 5px;
+            margin: 5px;
+        }
 
     </style>
 </head>
@@ -87,7 +94,14 @@
         </div>
     </div>
     <label for="choice">Please make a choice: (Enter "Rock" "Paper" or "Scissors"</label>
-    <button id="begin-game">Play!</button>
+    <div class="gamebuttons">
+        <button id="select-rock">Rock</button>
+        <button id="select-paper">Paper</button>
+        <button id="select-scissors">Scissors</button>
+    </div>
+    <div id="gameresult">
+    </div>
+    <div id ="winneroutput"></div>
     
     <script>
   
@@ -123,42 +137,57 @@
        function gameLogic(player, computer){
             gameCalculator = Math.abs((player - computer));
             if (gameCalculator === 0)
-                console.log("tie game!");
+                gameresult.textContent = "tie game!";
             else if (gameCalculator === 1){
                 if(player >  computer){
                     playerWins++;
-                    console.log(`${playerChoice.toLowerCase()} beats ${computerChoice.toLowerCase()}. Player wins!`)
-                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                    gameresult.textContent = `${playerChoice.toLowerCase()} beats ${computerChoice.toLowerCase()}. Player wins! \n playerwins count: ${playerWins} + computerWins count ${computerWins}`;
                 }else{
                     computerWins++;
-                    console.log(`${computerChoice.toLowerCase()} beats ${playerChoice.toLowerCase()}. Computer wins!`)
-                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                    gameresult.textContent = `${computerChoice.toLowerCase()} beats ${playerChoice.toLowerCase()}. Computer wins! \n playerwins count: ${playerWins} + computerWins count ${computerWins}`;
                 }
             }else if (gameCalculator === 2){
                 if(player <  computer){
                     playerWins++;
-                    console.log(`${playerChoice.toLowerCase()} beats ${computerChoice.toLowerCase()}. Player wins!`)
-                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                    gameresult.textContent = `${playerChoice.toLowerCase()} beats ${computerChoice.toLowerCase()}. Player wins! \n playerwins count: ${playerWins} + computerWins count ${computerWins}`;
                 }else{
                     computerWins++;
-                    console.log(`${computerChoice.toLowerCase()} beats ${playerChoice.toLowerCase()}. Computer wins!`)
-                    console.log(`playerwins count: ${playerWins} + computerWins count ${computerWins}`)
+                    gameresult.textContent = `${computerChoice.toLowerCase()} beats ${playerChoice.toLowerCase()}. Computer wins! \n playerwins count: ${playerWins} + computerWins count ${computerWins}`;
                 }
             }
        }
 
-       function game(){
-            playerChoice = prompt("Please make a choice (Rock, Paper, Scissors): ", "Rock").toLowerCase();
+       function game(playerSelection){
+            playerChoice = playerSelection;
             gameLogic(numerizeChoice(playerChoice), generateComputer());
        }
 
-       document.getElementById("begin-game").addEventListener("click", function(){
-        while(playerWins < 3 && computerWins < 3){
-            game();
+       let gamebuttons = document.querySelector('.gamebuttons');
+       let gameresult = document.querySelector('#gameresult');
+       let winner = document.querySelector('#winneroutput');
+
+       gamebuttons.addEventListener('click',(event) => {
+        let target = event.target;
+        let gameresult = document.createElement('div');
+        switch(target.id){
+            case 'select-rock':
+                game('rock');
+                break;
+            case 'select-paper':
+                game('paper');
+                break;
+            case 'select-scissors':
+                game('scissors');
+                break;
         }
-        (playerWins > computerWins) ? console.log("Congratulations! You just won the R-P-S World Series") : console.log("Sorry! The Computer got the best of you this time. Try again?");
-        });
-        
+        if (playerWins === 5 || computerWins === 5){
+            (playerWins > computerWins) ? winner.textContent = "Congratulations! You just won the R-P-S World Series" 
+                                        : winner.textContent = "Sorry! The Computer got the best of you this time. Try again?";
+            playerWins = 0;
+            computerWins = 0;
+        }
+       });
+    
        
         /*Second solution is here
         Set a global variable playerChoice to store the player's input into
