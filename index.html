@@ -153,8 +153,9 @@
        }
 
        document.getElementById("begin-game").addEventListener("click", function(){
-        while(playerWins < 3 && computerWins < 3)
+        while(playerWins < 3 && computerWins < 3){
             game();
+        }
         (playerWins > computerWins) ? console.log("Congratulations! You just won the R-P-S World Series") : console.log("Sorry! The Computer got the best of you this time. Try again?");
         });
         
